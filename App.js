@@ -15,7 +15,11 @@ const MainStackScreen = () => {
   return (
     <MainStack.Navigator>
       <MainStack.Screen name='Decks' component={Decks} />
-      <MainStack.Screen name='Deck' component={Deck} />
+      <MainStack.Screen
+        name='Deck'
+        component={Deck}
+        options={({ route }) => ({ title: route.params.deckName })}
+      />
       <MainStack.Screen name='Quiz' component={Quiz} />
     </MainStack.Navigator>
   );
