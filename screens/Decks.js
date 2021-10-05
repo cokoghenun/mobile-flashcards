@@ -22,10 +22,10 @@ export default function Decks({ navigation, route }) {
     setDecks(storedDecks);
   }, []);
 
-  useEffect(() => {
-    // (async() => await AsyncStorage.clear())()
+  navigation.addListener('focus', () => {
     initData();
-  }, [route?.params?.shouldUpdate]);
+  });
+
   return (
     <View style={css.container}>
       <FlatList

@@ -5,8 +5,9 @@ import css from '../Styles';
 
 export default function Deck({ navigation, route }) {
   const { deckName } = route?.params;
-  const { getItem, setItem } = useAsyncStorage('decks');
   const [deck, setDeck] = useState({});
+  const { getItem, setItem } = useAsyncStorage('decks');
+
   const initData = useCallback(async () => {
     const storedDecks = JSON.parse(await getItem());
 
@@ -30,12 +31,14 @@ export default function Deck({ navigation, route }) {
       >
         <Text style={css.buttonSecText}>Add Card</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={css.button}
-        onPress={() => navigation.navigate('Quiz')}
-      >
-        <Text style={css.buttonText}>Start Quiz</Text>
-      </TouchableOpacity>
+      {deck?.questions?.length ? (
+        <TouchableOpacity
+          style={css.button}
+          onPress={() => navigation.navigate('Quiz', { deckName, index: 0 })}
+        >
+          <Text style={css.buttonText}>Start Quiz</Text>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 }

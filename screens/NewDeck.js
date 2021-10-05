@@ -23,7 +23,7 @@ export default function NewDeck({ navigation }) {
 
     decks[name] = { title: name, questions: [] };
     await setItem(JSON.stringify(decks));
-    navigation.navigate('Decks', { shouldUpdate: Math.random() });
+    navigation.navigate('Decks');
   }, [name]);
 
   return (
