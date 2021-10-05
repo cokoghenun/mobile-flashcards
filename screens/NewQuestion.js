@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import css from '../Styles';
+import css from '../styles';
 
 export default function NewQuestion({ navigation, route }) {
   const { deckName } = route?.params;

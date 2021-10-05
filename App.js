@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Decks from './screens/Decks';
 import Deck from './screens/Deck';
 import Quiz from './screens/Quiz';
 import NewDeck from './screens/NewDeck';
 import NewQuestion from './screens/NewQuestion';
+import { setNotification } from './notifications';
 
 const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
@@ -26,6 +26,9 @@ const MainStackScreen = () => {
 };
 
 export default function App() {
+  useEffect(() => {
+    setNotification();
+  }, []);
   return (
     <NavigationContainer>
       <RootStack.Navigator>

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import css from '../Styles';
+import css from '../styles';
 
 export default function NewDeck({ navigation }) {
   const [name, setName] = useState('');

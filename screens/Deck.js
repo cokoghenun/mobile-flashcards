@@ -1,7 +1,8 @@
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import css from '../Styles';
+import { clearNotification, setNotification } from '../notifications';
+import css from '../styles';
 
 export default function Deck({ navigation, route }) {
   const { deckName } = route?.params;
@@ -12,6 +13,12 @@ export default function Deck({ navigation, route }) {
     const storedDecks = JSON.parse(await getItem());
 
     setDeck(storedDecks[deckName]);
+  }, []);
+
+  const startQuiz = useCallback(async () => {
+    await clearNotification();
+    await setNotification();
+    navigation.navigate('Quiz', { deckName, index: 0, correctCount: 0 });
   }, []);
 
   useEffect(() => {
@@ -32,10 +39,7 @@ export default function Deck({ navigation, route }) {
         <Text style={css.buttonSecText}>Add Card</Text>
       </TouchableOpacity>
       {deck?.questions?.length ? (
-        <TouchableOpacity
-          style={css.button}
-          onPress={() => navigation.navigate('Quiz', { deckName, index: 0 })}
-        >
+        <TouchableOpacity style={css.button} onPress={startQuiz}>
           <Text style={css.buttonText}>Start Quiz</Text>
         </TouchableOpacity>
       ) : null}

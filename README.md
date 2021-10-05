@@ -16,6 +16,13 @@ Then install the project dependencies
 cd mobile-flashcards && yarn install
 ```
 
+## Testing
+
+This project has been tested on:
+
+- A real Android device
+- Web (Notifications doesn't work)
+
 ## Starting the Project
 
 In the project directory, you can run:

@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import css from '../Styles';
+import css from '../styles';
+import seed from '../seed';
 
 export default function Decks({ navigation, route }) {
   const { getItem, setItem } = useAsyncStorage('decks');
@@ -22,7 +23,17 @@ export default function Decks({ navigation, route }) {
     setDecks(storedDecks);
   }, []);
 
+  const seedStorage = useCallback(async () => {
+    const seeded = JSON.parse(await AsyncStorage.getItem('seeded'));
+    if (seeded) return;
+    await AsyncStorage.setItem('decks', JSON.stringify(seed));
+    await AsyncStorage.setItem('seeded', JSON.stringify(true));
+    initData();
+  }, []);
+
   navigation.addListener('focus', () => {
+    // (async () => await AsyncStorage.clear())();
+    seedStorage();
     initData();
   });
 
