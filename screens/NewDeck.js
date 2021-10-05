@@ -17,14 +17,13 @@ export default function NewDeck({ navigation }) {
 
   const saveDeck = useCallback(async () => {
     let decks = JSON.parse(await getItem());
-    if (!decks) decks = [];
+    if (!decks) decks = {};
 
-    if (decks.includes(name))
-      return Alert.alert('Error', 'Deck already exists');
+    if (decks[name]) return Alert.alert('Error', 'Deck already exists');
 
-    decks.push(name);
+    decks[name] = { title: name, questions: [] };
     await setItem(JSON.stringify(decks));
-    navigation.navigate('Decks');
+    navigation.navigate('Decks', { shouldUpdate: Math.random() });
   }, [name]);
 
   return (

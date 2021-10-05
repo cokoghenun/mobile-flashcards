@@ -1,4 +1,6 @@
-import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import AsyncStorage, {
+  useAsyncStorage,
+} from '@react-native-async-storage/async-storage';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   FlatList,
@@ -9,31 +11,34 @@ import {
 } from 'react-native';
 import css from '../Styles';
 
-export default function Decks({ navigation }) {
+export default function Decks({ navigation, route }) {
   const { getItem, setItem } = useAsyncStorage('decks');
-  const [decks, setDecks] = useState([]);
+  const [decks, setDecks] = useState({});
 
   const initData = useCallback(async () => {
     let storedDecks = JSON.parse(await getItem());
-    if (!storedDecks) storedDecks = [];
+    if (!storedDecks) storedDecks = {};
 
     setDecks(storedDecks);
   }, []);
 
   useEffect(() => {
+    // (async() => await AsyncStorage.clear())()
     initData();
-  }, []);
+  }, [route?.params?.shouldUpdate]);
   return (
     <View style={css.container}>
       <FlatList
-        data={decks}
+        data={Object.keys(decks)}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.deckItem}
             onPress={() => navigation.navigate('Deck', { deckName: item })}
           >
             <Text style={styles.deckItemTitle}>{item}</Text>
-            <Text style={styles.deckItemText}>4 cards</Text>
+            <Text style={styles.deckItemText}>
+              {decks[item]?.questions?.length} cards
+            </Text>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item}
